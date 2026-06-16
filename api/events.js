@@ -6,10 +6,14 @@ export default async function handler(req, res) {
 
     const data = await response.json();
 
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.status(200).json(data);
+    // 🔥 CORS HEADERS (QUESTA È LA FIX)
+    res.setHeader("Access-Control-Allow-Origin", "https://events.bachataroma.com");
+    res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+    return res.status(200).json(data);
 
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
 }
