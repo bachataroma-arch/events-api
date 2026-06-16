@@ -1,15 +1,20 @@
 export default async function handler(req, res) {
+  // 🔥 CORS SEMPRE (anche prima del fetch)
+  res.setHeader("Access-Control-Allow-Origin", "https://events.bachataroma.com");
+  res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+  // 🔥 gestisce preflight
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
+
   try {
     const response = await fetch(
       "https://www.goandance.com/api/affiliates/6b69b3cc-49a3-445e-b6cb-8121d472c0c7/events"
     );
 
     const data = await response.json();
-
-    // 🔥 CORS HEADERS (QUESTA È LA FIX)
-    res.setHeader("Access-Control-Allow-Origin", "https://events.bachataroma.com");
-    res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS");
-    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
     return res.status(200).json(data);
 
